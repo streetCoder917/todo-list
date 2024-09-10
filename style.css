@@ -1,0 +1,153 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Nunito", sans-serif;
+}
+
+body {
+    background-color: #f2f2f2;
+}
+
+#alert {
+    background-color: lightgreen;
+    text-align: center;
+    width: 60%;
+    margin: auto;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-weight: bold;
+    display: none;
+}
+
+#close {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    border: .1px solid hsl(200, 16%, 32%);
+    width: max-content;
+    cursor: pointer;
+    background-color: #000;
+    color: #f2f2f2;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    line-height: 30px;
+}
+
+.box {
+    background-color: navy;
+    width: 60%;
+    margin: 30px auto 0;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.title {
+    letter-spacing: 1.1px;
+    font-size: 22px;
+}
+
+/* style header of box */
+.headerTasks {
+    position: relative;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* .title */
+
+button {
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.headerTasks #addTask {
+    position: absolute;
+    right: 10px;
+    background-color: orangered;
+    color: #fff;
+    font-weight: bold;
+}
+
+#addTask span {
+    display: none;
+}
+
+.task {
+    width: 100%;
+    background-color: orangered;
+    margin-top: 10px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.task:hover {
+    box-shadow: 0px 3px 10px #fff;
+    transition: .5s box-shadow;
+}
+
+.task_info {
+    width: 60%;
+}
+
+.taskActions {
+    width: 38%;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.taskActions button {
+    color: #000;
+    background-color: #fff;
+}
+
+.taskName {
+    font-size: 25px;
+}
+
+
+/* Responsive style for small screen like mobiles */
+@media screen and (max-width: 710px) {
+    .taskActions {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    .task {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .taskActions {
+        flex-direction: row;
+        /* gap: 10px; */
+    }
+
+}
+
+
+
+.completed {
+    background-color: dodgerblue;
+}

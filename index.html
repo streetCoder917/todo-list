@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tasks</title>
+    <!-- Font From Google -->
+    <link rel="stylesheet" href="./NunitoFont.css">
+    <!-- call icons from Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <!-- style.css -->
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div id="alert">
+        <p>your task updated successfully!</p>
+        <div id="close">X</div>
+    </div>
+
+    <div class="box">
+        <!-- this for title and add task later -->
+        <div class="headerTasks">
+            <h3 class="title">Tasks</h3>
+            <button id="addTask">
+                <span>span</span>
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+
+        <!-- this for tasks is consider a container -->
+        <div id="tasksArea">
+            <!-- <div class="task">
+                <div class="task_info">
+                    <div id="taskName">the task</div>
+                    <div id="taskDate">10-10-2030</div>
+                    <div id="taskTime">3:30</div>
+                </div>
+                <div class="taskActions">
+                    <button>
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                    <button>
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                    <button>
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+</body>
+
+<script>
+    let tasks = [
+
+    ];
+
+    let retrieved = JSON.parse(localStorage.getItem('tasks'))
+
+    if (retrieved == null) {
+        tasks = []
+    } else {
+        tasks = retrieved
+    }
+
+
+    // now we want to display all tasks inside task....
+    let addTaskButton = document.querySelector("#addTask");
+    let task = document.querySelector(".task");
+
+    // loop on tasks
+    function showTasks() {
+        document.getElementById('tasksArea').innerHTML = ''
+        let index = 0;
+        for (let i = 0; i < tasks.length; i++) {
+            let taskObject = tasks[i];
+
+            let taskInfo =
+                `
+                <div class="task ${tasks[i].isDone ? 'completed' : ''}">
+                    <div class="task_info">
+                        <div class="taskName">${taskObject.title}</div>
+                        <div class="taskDate">${taskObject.date}</div>
+                        <div class="taskTime">${taskObject.time}</div>
+                    </div>
+                    <div class="taskActions">
+                        <button onclick="deleteTask(${index})">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+
+                        ${taskObject.isDone ? `
+                            <button  onclick="changeBackground(${index})">
+                                <i class="fa-solid fa-cancel"></i>
+                            </button>
+                        `: `
+                            <button  onclick="changeBackground(${index})">
+                                    <i class="fa-solid fa-check"></i>
+                            </button>
+                        `}
+                        
+                        <button onclick="editTask(${index})">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                    </div>
+                </div>
+            `
+            document.getElementById('tasksArea').innerHTML += taskInfo
+
+            index++;
+        }
+    }
+
+    // Display tasks for user...
+    showTasks();
+
+
+
+
+    addTaskButton.addEventListener('click', function () {
+
+        let addTaskFromUser = prompt('Add Task');
+
+        let today = new Date();
+        let current_date = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
+        let current_time = `${today.getHours() - 12} : ${today.getMinutes()}`;
+
+        function changeTimeFormat() {
+            let date = new Date();
+
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+
+            // Check whether AM or PM
+            let newformat = hours >= 12 ? 'PM' : 'AM';
+
+            // Find current hour in AM-PM Format
+            hours = hours % 12;
+
+            // To display "0" as "12"
+            hours = hours ? hours : 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+
+            return hours + ':' + minutes + ' ' + newformat;
+        }
+
+        changeTimeFormat();
+
+        let userObject = {
+            "title": addTaskFromUser,
+            "date": current_date,
+            "time": changeTimeFormat(),
+            "isDone": false
+        }
+
+        if (addTaskFromUser) {
+            tasks.push(userObject);
+        }
+
+        updateStorage();
+        // Display tasks for user...
+        showTasks();
+    });
+
+
+
+    // Delete task from tasks...
+    function deleteTask(index) {
+        let confirmedDelete = confirm(`Are you sure you want to delete: ${tasks[index].title}`)
+
+        // check if user wanted to delete task...
+        if (confirmedDelete) {
+            tasks.splice(index, 1);
+        }
+
+        updateStorage()
+        // now after Delete procss we will display all tasks
+        showTasks()
+    }
+
+
+
+    // Update task from tasks...
+    function editTask(index) {
+        console.log(index)
+        let changeTaskName = prompt("Edit Task Name:- ", `${tasks[index].title}`);
+
+        // check the user pressed okay ...
+        if (changeTaskName) {
+            tasks[index].title = changeTaskName;
+            document.getElementById('alert').style.display = 'block';
+        }
+
+        updateStorage()
+
+        // now after Edit procss we will display all tasks
+        showTasks()
+    }
+
+    document.getElementById('close').addEventListener('click', function () {
+
+        this.parentElement.style.display = 'none';
+
+    });
+
+
+    function changeBackground(index) {
+        let task = tasks[index]
+
+        if (task.isDone) {
+            task.isDone = false
+        } else {
+            task.isDone = true
+        }
+
+        updateStorage()
+
+        // now after Edit procss we will display all tasks
+        showTasks()
+    }
+
+
+
+    function updateStorage() {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+</script>
+
+</html>
