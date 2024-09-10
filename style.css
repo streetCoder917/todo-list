@@ -135,14 +135,15 @@ button {
     }
 
     #close {
-        position: absolute;
-        top: 50px;
+        position: relative;
+        left: 45%;
     }
 
     .taskActions {
         display: flex;
         justify-content: space-around;
-        flex-direction: column;
+        align-items: center;
+        flex-direction: row;
         gap: 10px;
         width: 100%;
     }
@@ -157,7 +158,6 @@ button {
     }
     .taskActions {
         flex-direction: row;
-        /* gap: 10px; */
     }
 
 }
